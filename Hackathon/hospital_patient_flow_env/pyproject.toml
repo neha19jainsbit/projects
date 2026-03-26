@@ -1,0 +1,9 @@
+[project]
+name = "hospital-patient-flow-env"
+version = "0.1.0"
+description = "US Hospital Patient Flow OpenEnv environment"
+requires-python = ">=3.10"
+
+dependencies = [
+    "pydantic>=2.0"
+]

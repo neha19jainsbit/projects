@@ -1,0 +1,10 @@
+name: us_hospital_patient_flow_env
+version: 1.0
+
+state_model: HospitalState
+action_model: PatientFlowAction
+
+tasks:
+  - easy
+  - medium
+  - hard
