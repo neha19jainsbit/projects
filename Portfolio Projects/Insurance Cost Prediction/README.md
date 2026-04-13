@@ -4,11 +4,6 @@
 
 Insurance companies need an accurate and transparent method to estimate health insurance premiums based on individual risk profiles. Manual underwriting is time-consuming, inconsistent, and does not scale. The goal of this project is to build a machine learning model that predicts insurance premium prices using demographic and health-related features, and deploy it as an interactive web application for real-time premium estimation.
 
-## Target Metric
-
-- **Primary Metric:** R² Score (coefficient of determination) — measures how well the model explains variance in premium prices
-- **Supporting Metrics:** MAE (Mean Absolute Error) and RMSE (Root Mean Squared Error) on log-transformed premium prices
-
 ## Dataset
 
 - **Records:** 986 individuals
@@ -51,6 +46,11 @@ A multiple linear regression model (statsmodels OLS) confirmed that age, surgeri
 | Decision Tree        | 0.854    | 0.066 | 0.108 |
 | Random Forest        | 0.897    | 0.055 | 0.091 |
 | Gradient Boosting    | 0.887    | 0.063 | 0.095 |
+
+#### Target Metric
+
+- **Primary Metric:** R² Score (coefficient of determination) — measures how well the model explains variance in premium prices
+- **Supporting Metrics:** MAE (Mean Absolute Error) and RMSE (Root Mean Squared Error) on log-transformed premium prices
 
 #### 5-Fold Cross-Validation
 
@@ -125,10 +125,12 @@ insurance.csv → insurance.ipynb (EDA + Training) → model.pkl → app.py (Str
 
 ```bash
 # Prediction App
-python -m streamlit run app.py
+python -m streamlit run app.py 
+Note: This will run the predictor application
 
 # Analytics Dashboard
 python -m streamlit run app1.py
+Note: This will provide you a detailed analysis of the Insurance dataset.
 ```
 
 ---
