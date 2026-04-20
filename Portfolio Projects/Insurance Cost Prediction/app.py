@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import joblib
+import pandas as pd
 
 # ----------------------
 # PAGE CONFIG
@@ -17,7 +18,27 @@ st.set_page_config(
 def load_model():
     return joblib.load("model.pkl")
 
+
+@st.cache_data
+def load_risk_recommendations():
+    try:
+        rec_df = pd.read_csv("RiskRecommendations.csv")
+        if not {"Risk", "Recommendation"}.issubset(rec_df.columns):
+            return {}
+
+        recommendation_map = {}
+        for _, row in rec_df.iterrows():
+            risk = str(row["Risk"]).strip()
+            recommendation = str(row["Recommendation"]).strip()
+            if risk and recommendation:
+                recommendation_map.setdefault(risk, []).append(recommendation)
+
+        return recommendation_map
+    except Exception:
+        return {}
+
 model = load_model()
+risk_recommendation_map = load_risk_recommendations()
 
 # ----------------------
 # HEADER
@@ -109,5 +130,22 @@ if submitted:
 
     if risk_factors:
         st.warning(f"⚠️ Risk factors identified: {', '.join(risk_factors)}")
+
+        st.markdown("### Risk Recommendations")
+        for factor in risk_factors:
+            st.markdown(f"**{factor}:**")
+            recommendations = risk_recommendation_map.get(
+                factor,
+                ["Consult a healthcare professional for a personalized prevention plan."]
+            )
+            for rec in recommendations:
+                st.write(f"- {rec}")
+
+        st.warning(
+            "⚠️ Important note: The suggestions below are general preventive health tips, "
+            "not medical advice or treatment. They are meant for health education and risk "
+            "awareness only. Patients should always consult a qualified healthcare "
+            "professional for diagnosis or treatment decisions."
+        )
     else:
         st.success("✅ No major risk factors identified.")
